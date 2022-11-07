@@ -1,0 +1,42 @@
+service: ${self:custom.app.name}
+
+frameworkVersion: "3"
+# To use .env files
+useDotenv: true
+
+plugins:
+  - serverless-webpack
+  - serverless-offline
+  
+custom:
+  app:
+    name: app-typescript-template-base
+  stage: ${opt:stage, 'test'}
+  profile: 'your-profile'
+  env:
+      test:
+        accountRegion: us-east-1
+        accountId: ""
+      prod:
+        accountRegion: us-east-1
+        accountId: ""
+provider:
+  name: aws
+  runtime: nodejs16.x
+  region: ${self:custom.env.${self:custom.stage}.accountRegion}
+  profile: ${self:custom.profile}
+  stage: ${self:custom.stage}   
+  timeout: 29
+  environment:
+    ENV: ${self:custom.stage}  
+    REGION: ${self:custom.env.${self:custom.stage}.accountRegion}
+    SENTRY_DSN: 'your-sentry-dsn'
+functions: 
+  hello-world:
+    name: ${self:custom.app.name}-hello-world-${self:custom.stage}
+    handler: functions/hello-world.handler
+    events:
+    - httpApi:
+          path: /hello-world
+          method: get
+
