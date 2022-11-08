@@ -26,7 +26,6 @@ provider:
   region: ${self:custom.env.${self:custom.stage}.accountRegion}
   profile: ${self:custom.profile}
   stage: ${self:custom.stage}   
-  timeout: 29
   environment:
     ENV: ${self:custom.stage}  
     REGION: ${self:custom.env.${self:custom.stage}.accountRegion}
