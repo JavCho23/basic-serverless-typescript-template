@@ -14,7 +14,7 @@ class SentryServerless {
       environment: process.env.ENV,
     });
   }
-  async wrapHandler(handler: Handler<unknown, unknown>){
+  wrapHandler(handler: Handler<unknown, unknown>){
     return Sentry.AWSLambda.wrapHandler(handler)
   }
 }
